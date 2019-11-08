@@ -2,7 +2,9 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-axios.get('https://api.github.com/users/kpace622')
+
+
+  
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -23,8 +25,14 @@ axios.get('https://api.github.com/users/kpace622')
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
+// const followersArray = ['https://github.com/sicklesium', 'https://github.com/LoganNegley', 'https://github.com/kjdschneider', 
+// 'https://github.com/Catherinesjkim', 'https://github.com/Heart8reak' ];
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'luishrd', 'bigknell']
+  
+ 
+  
+  
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -66,4 +74,53 @@ const createCard = (object) => {
   const followers = document.createElement('p');
   const following = document.createElement('p');
   const bio = document.createElement('p');
+
+  card.append(userImg, cardInfo);
+  cardInfo.append(name, username, location, profile, followers, following, bio);
+  profile.appendChild(github);
+
+  card.classList.add('card');
+  name.classList.add('name')
+  username.classList.add('username')
+
+  userImg.src = object.avatar_url;
+  name.textContent = `${object.name}`;
+  username.textContent = `${object.login}`;
+  location.textContent = `${object.location}`;
+  followers.textContent = `Followers: ${object.followers}`;
+  following.textContent = `Following: ${object.following}`;
+  bio.textContent = `${object.bio}`;
+  github.textContent = `${object.html_url}`
+  github.setAttribute('href', `${object.html_url}`)
+
+  return card;
 }
+const entryPoint = document.querySelector('.cards');
+
+console.log(axios
+  .get('https://api.github.com/users/kpace622',));
+axios
+  .get('https://api.github.com/users/kpace622')
+  .then(response => {
+    const myInfo = createCard(response.data);
+    entryPoint.appendChild(myInfo);
+    return response.data;
+  })
+  .catch(error => {
+    console.log('no data found', error)
+  });
+
+
+followersArray.forEach(element => {
+  axios
+    .get(`https://api.github.com/users/${element}`)
+    .then((response) => {
+      
+      entryPoint.appendChild(createCard(response.data))
+    })
+
+  .catch(error => {
+  console.log('no data found', error)
+  });
+})
+  

@@ -2,6 +2,11 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+axios
+  .get('https://api.github.com/users/kpace622')
+  .then(res => {
+    console.log(res)
+  })
 
 
   
@@ -30,10 +35,6 @@
 
 const followersArray = ['tetondan', 'dustinmyers', 'luishrd', 'bigknell']
   
- 
-  
-  
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
